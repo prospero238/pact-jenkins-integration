@@ -1,1 +1,2 @@
-pact_broker_pid: /run/pact_broker.pid
+pact_broker_pid: /var/run/pact_broker/pact_broker.pid
+

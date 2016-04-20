@@ -1,4 +1,4 @@
-pact_broker_pid: /var/run/pact_broker.pid
+pact_broker_pid: /var/run/pact_broker/pact_broker.pid
 sqllite_package: sqlite-devel.x86_64
 pact_dir: /usr/local/pact-broker
 pact_broker_port: 8383
@@ -7,3 +7,4 @@ pact_broker_hostname: "{{ hostvars[inventory_hostname][use_interface]['ipv4']['a
 pact_broker_connection_delay: 1
 pact_start_timeout: 30
 bundle_path: /usr/local/bin/bundle
+pact_broker_user: vagrant

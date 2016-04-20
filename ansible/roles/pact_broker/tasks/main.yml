@@ -1,11 +1,20 @@
 ---
 
+- debug: var=pact_broker_pid
+- debug: msg="{{pact_broker_pid|dirname}}"
+
 - yum: name=ruby-devel 
 
 - gem: name=i18n version=0.7.0 state=present
 
+- name: create user
+  user: name={{pact_broker_user}}
+
+- name: ensure pact var/run dir
+  file: state=directory path={{pact_broker_pid | dirname}} owner={{pact_broker_user}} mode=0755 recurse=true
+
 - name: ensure pact dir
-  file: state=directory path={{pact_dir}} owner=vagrant recurse=true
+  file: state=directory path={{pact_dir}} owner={{pact_broker_user}} recurse=true
 
 - name: Clone the pact-broker repository.
   git:
@@ -16,20 +25,23 @@
 
 
 - name: ensure pact dir
-  file: state=directory path={{pact_dir}} owner=vagrant recurse=true
+  file: state=directory path={{pact_dir}} owner={{pact_broker_user}} recurse=true
 
 - name: Ensure libsqlite3-dev is installed
   yum: name={{ sqllite_package }}
   
 
 - name: execute bundler
-  shell: bundle
+  become_user: "{{ pact_broker_user}}"
+  shell: "{{ bundle_path }} install"
   args:
     chdir: "{{ pact_dir}}/example"
+
 
 - debug: var=pact_broker_hostname
 
 - name: Startup
+  become_user: "{{ pact_broker_user}}"
   shell: "{{ bundle_path }} exec rackup -p {{pact_broker_port}} -D -o {{pact_broker_hostname}} -P {{pact_broker_pid}}"
   args:
     chdir: "{{ pact_dir}}/example"
