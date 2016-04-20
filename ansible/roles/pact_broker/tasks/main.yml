@@ -1,0 +1,39 @@
+---
+
+- name: Install curl
+  yum: name=curl
+
+- yum: name=ruby-devel 
+
+- name: ensure pact dir
+  file: state=directory path={{pact_dir}} owner=vagrant recurse=true
+
+- name: Clone the pact-broker repository.
+  git:
+    repo: https://github.com/bethesque/pact_broker
+    dest: "{{ pact_dir }}"
+    version: v1.9.0
+    force: yes
+
+
+- name: ensure pact dir
+  file: state=directory path={{pact_dir}} owner=vagrant recurse=true
+
+- name: Ensure libsqlite3-dev is installed
+  yum: name={{ sqllite_package }}
+  
+
+- name: execute bundler
+  command: 'bundle'
+  args:
+    chdir: '/usr/local/pact-broker/example'
+
+- debug: var=pact_broker_hostname
+
+- name: Startup
+  shell: bundle exec rackup -p {{pact_broker_port}} -D -o {{pact_broker_hostname}} -P {{pact_broker_pid}}
+  args:
+    chdir: /usr/local/pact-broker/example
+    creates: "{{ pact_broker_pid }}"
+
+- wait_for: port={{pact_broker_port}} delay={{pact_broker_connection_delay}} timeout={{ pact_start_timeout }} host={{pact_broker_hostname}}

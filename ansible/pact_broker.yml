@@ -1,0 +1,17 @@
+
+---
+- hosts: all
+  become: true
+  vars:
+    ruby_download_url: http://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.1.tar.gz
+    ruby_version: 2.2.1
+    ruby_install_from_source: true
+  roles:
+    - geerlingguy.git 
+    - geerlingguy.ruby
+
+- hosts: all
+  become: true
+  roles:
+    - pact_broker 
+  tags: pact_broker

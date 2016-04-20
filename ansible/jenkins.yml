@@ -1,0 +1,12 @@
+
+---
+- hosts: all
+  sudo: yes
+  vars:
+    java_packages:
+      - java-1.8.0-openjdk-devel
+  roles:
+    - role: geerlingguy.java
+    - role: geerlingguy.jenkins
+  tags: jenkins
+
