@@ -1,9 +1,8 @@
 ---
 
-- name: Install curl
-  yum: name=curl
-
 - yum: name=ruby-devel 
+
+- gem: name=i18n version=0.7.0 state=present
 
 - name: ensure pact dir
   file: state=directory path={{pact_dir}} owner=vagrant recurse=true
@@ -24,16 +23,16 @@
   
 
 - name: execute bundler
-  command: 'bundle'
+  shell: bundle
   args:
-    chdir: '/usr/local/pact-broker/example'
+    chdir: "{{ pact_dir}}/example"
 
 - debug: var=pact_broker_hostname
 
 - name: Startup
-  shell: bundle exec rackup -p {{pact_broker_port}} -D -o {{pact_broker_hostname}} -P {{pact_broker_pid}}
+  shell: "{{ bundle_path }} exec rackup -p {{pact_broker_port}} -D -o {{pact_broker_hostname}} -P {{pact_broker_pid}}"
   args:
-    chdir: /usr/local/pact-broker/example
+    chdir: "{{ pact_dir}}/example"
     creates: "{{ pact_broker_pid }}"
 
 - wait_for: port={{pact_broker_port}} delay={{pact_broker_connection_delay}} timeout={{ pact_start_timeout }} host={{pact_broker_hostname}}
