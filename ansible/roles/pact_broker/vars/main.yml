@@ -1,6 +1,6 @@
 pact_broker_pid: /var/run/pact_broker/pact_broker.pid
 sqllite_package: sqlite-devel.x86_64
-pact_dir: /usr/local/pact-broker
+pact_broker_src_dir: /usr/local/pact-broker
 pact_broker_port: 8383
 use_interface: ansible_eth1
 pact_broker_hostname: "{{ hostvars[inventory_hostname][use_interface]['ipv4']['address'] }}"

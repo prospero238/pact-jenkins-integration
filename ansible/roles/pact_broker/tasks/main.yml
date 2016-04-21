@@ -5,7 +5,7 @@
 
 - yum: name=ruby-devel 
 
-- gem: name=i18n version=0.7.0 state=present
+#- gem: name=i18n version=0.7.0 state=present
 
 - name: create user
   user: name={{pact_broker_user}}
@@ -14,18 +14,18 @@
   file: state=directory path={{pact_broker_pid | dirname}} owner={{pact_broker_user}} mode=0755 recurse=true
 
 - name: ensure pact dir
-  file: state=directory path={{pact_dir}} owner={{pact_broker_user}} recurse=true
+  file: state=directory path={{pact_broker_src_dir}} owner={{pact_broker_user}} recurse=true
 
 - name: Clone the pact-broker repository.
   git:
     repo: https://github.com/bethesque/pact_broker
-    dest: "{{ pact_dir }}"
+    dest: "{{ pact_broker_src_dir }}"
     version: v1.9.0
     force: yes
 
 
 - name: ensure pact dir
-  file: state=directory path={{pact_dir}} owner={{pact_broker_user}} recurse=true
+  file: state=directory path={{pact_broker_src_dir}} owner={{pact_broker_user}} recurse=true
 
 - name: Ensure libsqlite3-dev is installed
   yum: name={{ sqllite_package }}
@@ -35,16 +35,16 @@
   become_user: "{{ pact_broker_user}}"
   shell: "{{ bundle_path }} install"
   args:
-    chdir: "{{ pact_dir}}/example"
+    chdir: "{{ pact_broker_src_dir}}/example"
 
 
 - debug: var=pact_broker_hostname
 
-- name: Startup
+- name: start pact broker
   become_user: "{{ pact_broker_user}}"
   shell: "{{ bundle_path }} exec rackup -p {{pact_broker_port}} -D -o {{pact_broker_hostname}} -P {{pact_broker_pid}}"
   args:
-    chdir: "{{ pact_dir}}/example"
+    chdir: "{{ pact_broker_src_dir}}/example"
     creates: "{{ pact_broker_pid }}"
 
 - wait_for: port={{pact_broker_port}} delay={{pact_broker_connection_delay}} timeout={{ pact_start_timeout }} host={{pact_broker_hostname}}

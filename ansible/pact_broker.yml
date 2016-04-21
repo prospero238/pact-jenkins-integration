@@ -7,11 +7,12 @@
     ruby_version: 2.2.1
     ruby_install_from_source: true
   roles:
-    - geerlingguy.git 
     - geerlingguy.ruby
+  tags: ruby
 
 - hosts: all
   become: true
   roles:
+    - geerlingguy.git 
     - pact_broker 
   tags: pact_broker
