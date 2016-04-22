@@ -1,0 +1,84 @@
+{
+  "provider": {
+    "name": "color-provider"
+  },
+  "consumer": {
+    "name": "test_consumer"
+  },
+  "interactions": [
+    {
+      "providerState": null,
+      "description": "Request for color red",
+      "request": {
+        "method": "GET",
+        "path": "/color/red"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "name": "red"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pact-specification": {
+      "version": "2.0.0"
+    },
+    "pact-jvm": {
+      "version": "3.2.4"
+    }
+  },
+  "createdAt": "2016-03-23T02:29:56+00:00",
+  "_links": {
+    "self": {
+      "title": "Pact",
+      "name": "Pact between test_consumer (v1.0.0.201603230229) and color-provider",
+      "href": "http://localhost:8383/pacts/provider/color-provider/consumer/test_consumer/version/1.0.0.201603230229"
+    },
+    "pb:consumer": {
+      "title": "Consumer",
+      "name": "test_consumer",
+      "href": "http://localhost:8383/pacticipants/test_consumer"
+    },
+    "pb:provider": {
+      "title": "Provider",
+      "name": "color-provider",
+      "href": "http://localhost:8383/pacticipants/color-provider"
+    },
+    "pb:latest-pact-version": {
+      "title": "Pact",
+      "name": "Latest version of this pact",
+      "href": "http://localhost:8383/pacts/provider/color-provider/consumer/test_consumer/latest"
+    },
+    "pb:previous-distinct": {
+      "title": "Pact",
+      "name": "Previous distinct version of this pact",
+      "href": "http://localhost:8383/pacts/provider/color-provider/consumer/test_consumer/version/1.0.0.201603230229/previous-distinct"
+    },
+    "pb:diff-previous-distinct": {
+      "title": "Diff",
+      "name": "Diff with previous distinct version of this pact",
+      "href": "http://localhost:8383/pacts/provider/color-provider/consumer/test_consumer/version/1.0.0.201603230229/diff/previous-distinct"
+    },
+    "pb:pact-webhooks": {
+      "title": "Webhooks for the pact between test_consumer and color-provider",
+      "href": "http://localhost:8383/webhooks/provider/color-provider/consumer/test_consumer"
+    },
+    "pb:tag-prod-version": {
+      "title": "Tag this version as 'production'",
+      "href": "http://localhost:8383/pacticipants/test_consumer/versions/1.0.0.201603230229/tags/prod"
+    },
+    "pb:tag-version": {
+      "title": "Tag version",
+      "href": "http://localhost:8383/pacticipants/test_consumer/versions/1.0.0.201603230229/tags/{tag}"
+    },
+    "curies": [
+      {
+        "name": "pb",
+        "href": "http://localhost:8383/doc/{rel}",
+        "templated": true
+      }
+    ]
+  }
+}

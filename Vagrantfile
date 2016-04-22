@@ -13,14 +13,20 @@ VAGRANTFILE_API_VERSION = "2"
 
 ANSIBLE_TAGS=ENV['ANSIBLE_TAGS']
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "nrel/CentOS-6.6-x86_64"
+  if ENV['ANSIBLE_PLAYBOOK'] 
+    playbook="#{ENV['ANSIBLE_PLAYBOOK']}"
+   else     
+    playbook="ansible/main.yml"
+  end    
 
+  config.vm.box = "nrel/CentOS-6.6-x86_64"
+  
   config.vm.provision "shell", inline: "/etc/init.d/iptables $1", args: "stop"
   config.vm.provision "shell", inline: "/sbin/chkconfig iptables", args: "off"
 
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "ansible/main.yml"
-     ansible.tags = ANSIBLE_TAGS
+    ansible.playbook = playbook
+    ansible.tags = ANSIBLE_TAGS
     ansible.groups = {
       "ci-server" => ["default"]
     }

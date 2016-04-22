@@ -1,0 +1,12 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core"
+         xmlns:t="/lib/hudson">
+
+
+    <t:summary icon="clipboard.png">Pact consumer:
+        <a href="${it.pactBrokerGroupUrl}">
+            ${it.consumerName}
+        </a>
+    </t:summary>
+
+</j:jelly>
